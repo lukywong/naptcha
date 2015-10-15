@@ -2,3 +2,4 @@ build
 dest
 node_modules
 npm-debug.log
+*.gch

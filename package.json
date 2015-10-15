@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "config": "node-gyp configure",
-    "build": "node-gyp configure && node-gyp build && babel -d ./dest ./lib",
-    "demo": "node-gyp configure && node-gyp build && babel -d ./dest ./lib && node ./demo/test.js"
+    "build": "node-gyp configure && node-gyp build && rm -rf dist && mkdir dist && babel -d ./dist ./lib",
+    "demo": "node-gyp configure && node-gyp build && babel -d ./dist ./lib && node ./demo/test.js"
   },
   "author": "lukywong@gmail.com",
   "license": "MIT",
