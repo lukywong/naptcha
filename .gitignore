@@ -1,5 +1,5 @@
 build
-dest
+dist
 node_modules
 npm-debug.log
 *.gch
