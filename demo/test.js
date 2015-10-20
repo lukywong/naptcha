@@ -3,11 +3,11 @@ var options = {
   path: './demo/',
   fileName: Date.now(),
   type: 'jpeg',
-  width: 170,
+  width: 120,
   height: 65,
   quality: 50,
-  fontSize: 57,
-  offset: 40 //space between characters
+  fontSize: 57
 };
-var nap = naptcha.of(options);
-nap.perform();
+var napObj = naptcha.of(options);
+var nap = napObj.perform();
+console.log(nap.text);

@@ -1,7 +1,6 @@
 #include <nan.h>
 #include <string>
 #include <time.h>
-#include <iostream>
 #include "naptcha.h"
 #include "CImg.h"
 
@@ -12,6 +11,10 @@ using namespace cimg_library;
 #define SHIFT_STYLE_NEUMANN 1
 #define SHIFT_STYLE_FOURIER 2
 #define NOISE_TYPE_RICIAN 4
+#define IMAGE_TYPE_2D 1
+#define VECTOR_TUNNEL_RGB 3
+#define COLOR_BLACK 255
+
 
 namespace naptcha_object
 {
@@ -38,10 +41,9 @@ NAN_METHOD(CNaptcha::Generate)
   naptcha_object::Count = info[2]->Int32Value();
   naptcha_object::Width = info[3]->Int32Value();
   naptcha_object::Height = info[4]->Int32Value();
-  naptcha_object::Offset = info[5]->Int32Value();
-  naptcha_object::Quality = info[6]->Int32Value();
-  naptcha_object::IsJpeg = info[7]->Int32Value();
-  naptcha_object::FontSize = info[8]->Int32Value();
+  naptcha_object::Quality = info[5]->Int32Value();
+  naptcha_object::IsJpeg = info[6]->Int32Value();
+  naptcha_object::FontSize = info[7]->Int32Value();
 
   Save();
 
@@ -55,14 +57,13 @@ int CNaptcha::Save()
   const char* cp_name((naptcha_object::FileName).c_str());
 
   int count(naptcha_object::Count);
-  int offset(naptcha_object::Offset);
 
   CImg<unsigned char> captcha(
     naptcha_object::Width,
     naptcha_object::Height,
-    1, //2D Image
-    3, //vector tunnel, here is RGB
-    255  //init color black
+    IMAGE_TYPE_2D,
+    VECTOR_TUNNEL_RGB,
+    COLOR_BLACK
   ),
   color(3);
   const unsigned char fontColor[][3] = {
@@ -74,52 +75,28 @@ int CNaptcha::Save()
   char letter[2] = { 0 };
   for (int k = 0; k < count; ++k)
   {
-    CImg<unsigned char> tmpCImg(
-      naptcha_object::Width,
-      naptcha_object::Height,
-      1, //2D Image
-      3, //vector tunnel, here is RGB
-      255  //init color black
-    );
     *letter = cp_text[k];
     if (*letter)
     {
       int idx = std::rand() % (sizeof(fontColor) / sizeof(fontColor[0]));
-      tmpCImg.draw_text(
-        (int)(2 + 8 * cimg::rand()),
+      captcha.draw_text(
+        10 + 20 * k,
         (int)(12 * cimg::rand()),
         letter,
         fontColor[idx],
         0,
         0.7,
         naptcha_object::FontSize
-      ).resize(-100, -100, 1, 3);
-
-      float fFreq = cimg::rand(0.15, 0.25), fOffset = cimg::rand(-1, 1) * 3;
-      cimg_forYC(tmpCImg, y, v)
-        tmpCImg
-          .get_shared_row(y, 0, v)
-          .shift((int)(4 * std::sin(fFreq * y + fOffset)), 0, 0, 0, SHIFT_STYLE_FOURIER);
-
-      captcha.draw_image(count + offset * k, tmpCImg);
-    }
-  }
-
-  for (int l = 0; l < 3; ++l)
-  {
-    for (int k = 0; k < 10; ++k)
-    {
-      cimg_forX(color,i) color[i] = (unsigned char)(std::rand() % 255);
-      captcha.draw_line(
-        (int)(cimg::rand() * captcha.width()),
-        (int)(cimg::rand() * captcha.height()),
-        (int)(cimg::rand() * captcha.width()),
-        (int)(cimg::rand() * captcha.height()),
-        color.data(),
-        0.8f
       );
     }
   }
+
+  float fFreq = cimg::rand(0.15, 0.25), fOffset = cimg::rand(-1, 1) * 3;
+  cimg_forYC(captcha, y, v)
+    captcha
+      .get_shared_row(y, 0, v)
+      .shift((int)(4 * std::sin(fFreq * y + fOffset)), 0, 0, 0, SHIFT_STYLE_FOURIER);
+
   captcha.noise(30, NOISE_TYPE_RICIAN);
 
   if(naptcha_object::IsJpeg)
