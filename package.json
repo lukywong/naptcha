@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "nan": "^2.1.0",
-    "ramda": "^0.18.0"
+    "curry": "^1.2.0",
+    "object-assign": "^4.0.1"
   },
   "devDependencies": {
     "babel": "^5.8.23"
