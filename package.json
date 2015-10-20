@@ -1,11 +1,11 @@
 {
   "name": "naptcha",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A simple captcha for nodejs",
   "main": "index.js",
   "scripts": {
     "config": "node-gyp configure",
-    "build": "node-gyp configure && node-gyp build && rm -rf dist && mkdir dist && babel -d ./dist ./lib",
+    "build": "node-gyp configure && node-gyp build && rm -rf ./dist && mkdir ./dist && babel -d ./dist ./lib",
     "demo": "node-gyp configure && node-gyp build && babel -d ./dist ./lib && node ./demo/test.js"
   },
   "author": "lukywong@gmail.com",

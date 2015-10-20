@@ -1,6 +1,6 @@
 var naptcha = require('../index');
 var options = {
-  path: './demo/',
+  dir: './demo',
   fileName: Date.now(),
   type: 'jpeg',
   width: 120,
