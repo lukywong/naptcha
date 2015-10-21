@@ -1,6 +1,6 @@
 {
   "name": "naptcha",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple captcha for nodejs",
   "main": "index.js",
   "scripts": {

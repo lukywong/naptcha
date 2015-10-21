@@ -50,8 +50,15 @@ naptcha.prototype.perform = function (text) {
   });
 };
 
+var zipObj = function zipObj(arr1, arr2) {
+  return arr1.reduce(function (sofar, curr, index) {
+    sofar[curr] = arr2[index];
+    return sofar;
+  }, {});
+};
+
 var mergeOptionAs = curry(function (name, val, options) {
-  return assign(options, R.zipObj([name], [val]));
+  return assign(options, zipObj([name], [val]));
 });
 
 naptcha.dir = mergeOptionAs('dir');
