@@ -73,12 +73,12 @@ int CNaptcha::Save()
     { 67, 67, 67 }
   };
   char letter[2] = { 0 };
+  int idx = std::rand() % (sizeof(fontColor) / sizeof(fontColor[0]));
   for (int k = 0; k < count; ++k)
   {
     *letter = cp_text[k];
     if (*letter)
     {
-      int idx = std::rand() % (sizeof(fontColor) / sizeof(fontColor[0]));
       captcha.draw_text(
         10 + 20 * k,
         (int)(12 * cimg::rand()),
