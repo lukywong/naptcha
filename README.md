@@ -1,5 +1,5 @@
 # Introduction
-A simple captcha for Node.js.
+A simple captcha for Node.js, support node 0.10.x, 0.12.x and 4.x.
 
 # Installation
 

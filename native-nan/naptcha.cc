@@ -2,7 +2,6 @@
 #include <string>
 #include <time.h>
 #include "naptcha.h"
-#include "CImg.h"
 
 using namespace v8;
 using namespace cimg_library;
@@ -91,7 +90,7 @@ int CNaptcha::Save()
     }
   }
 
-  float fFreq = cimg::rand(0.15, 0.25), fOffset = cimg::rand(-1, 1) * 3;
+  float fFreq = _Rand(0.15, 0.25), fOffset = _Rand(-1, 1) * 3;
   cimg_forYC(captcha, y, v)
     captcha
       .get_shared_row(y, 0, v)
