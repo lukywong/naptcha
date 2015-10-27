@@ -11,10 +11,12 @@ function naptcha(value) {
     dir: '.',
     fileName: Date.now(),
     type: 'jpeg',
-    width: 110,
-    height: 65,
+    width: 160,
+    height: 50,
     quality: 50,
     fontSize: 57,
+    offset: 40,
+    charSpace: 20,
     textGen: randomTextGen
   };
   this.__value = assign(defaultValue, value || {});
@@ -37,13 +39,15 @@ naptcha.prototype.perform = function (text) {
   var height = _value.height;
   var quality = _value.quality;
   var fontSize = _value.fontSize;
+  var offset = _value.offset;
+  var charSpace = _value.charSpace;
   var textGen = _value.textGen;
 
   var isJpeg = type.toUpperCase() == 'JPEG';
   var filePath = path.join(dir, fileName + '.' + (isJpeg ? 'jpeg' : 'bmp'));
   var txt = text || textGen();
 
-  naptchaNative.generate(txt, filePath, txt.length, width, height, quality, isJpeg, fontSize);
+  naptchaNative.generate(txt, filePath, txt.length, width, height, quality, isJpeg, fontSize, offset, charSpace);
 
   return Object.create(fs.createReadStream(filePath), {
     text: { value: txt }
@@ -68,6 +72,8 @@ naptcha.width = mergeOptionAs('width');
 naptcha.height = mergeOptionAs('height');
 naptcha.quality = mergeOptionAs('quality');
 naptcha.fontSize = mergeOptionAs('fontSize');
+naptcha.offset = mergeOptionAs('offset');
+naptcha.charSpace = mergeOptionAs('charSpace');
 naptcha.textGen = mergeOptionAs('textGen');
 
 var randomTextGen = function randomTextGen() {

@@ -21,7 +21,12 @@ public:
   static int Save();
 
 protected:
-  static std::string _ToString(Local<Value> pLocalValue);
+  inline static std::string _ToString(Local<Value> pLocalValue)
+  {
+    String::Utf8Value utf8_value(pLocalValue->ToString());
+    std::string value = *utf8_value;
+    return value;
+  };
   inline static double _Rand(const double min, const double max)
   {
     const double val = (double)std::rand() / RAND_MAX;
@@ -29,8 +34,8 @@ protected:
   };
 
 private:
-  CNaptcha();
-  ~CNaptcha();
+  CNaptcha() {};
+  ~CNaptcha() {};
 };
 
 #endif

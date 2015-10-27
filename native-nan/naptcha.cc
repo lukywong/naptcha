@@ -14,7 +14,6 @@ using namespace cimg_library;
 #define VECTOR_TUNNEL_RGB 3
 #define COLOR_BLACK 255
 
-
 namespace naptcha_object
 {
 	std::string Text;
@@ -22,14 +21,12 @@ namespace naptcha_object
 	int Count;
 	int Width;
 	int Height;
-	int Offset;
 	int Quality;
 	int IsJpeg;
   int FontSize;
+  int Offset;
+  int CharacterSpace;
 }
-
-CNaptcha::CNaptcha() { }
-CNaptcha::~CNaptcha() { }
 
 NAN_METHOD(CNaptcha::Generate)
 {
@@ -43,6 +40,8 @@ NAN_METHOD(CNaptcha::Generate)
   naptcha_object::Quality = info[5]->Int32Value();
   naptcha_object::IsJpeg = info[6]->Int32Value();
   naptcha_object::FontSize = info[7]->Int32Value();
+  naptcha_object::Offset = info[8]->Int32Value();
+  naptcha_object::CharacterSpace = info[9]->Int32Value();
 
   Save();
 
@@ -76,11 +75,13 @@ int CNaptcha::Save()
   for (int k = 0; k < count; ++k)
   {
     *letter = cp_text[k];
+    int nX = naptcha_object::Offset + naptcha_object::CharacterSpace * k;
+    int nY = 0;
     if (*letter)
     {
       captcha.draw_text(
-        10 + 20 * k,
-        (int)(12 * cimg::rand()),
+        nX,
+        nY,
         letter,
         fontColor[idx],
         0,
@@ -108,11 +109,4 @@ int CNaptcha::Save()
   }
 
   return 0;
-}
-
-std::string CNaptcha::_ToString(Local<Value> pLocalValue)
-{
-  String::Utf8Value utf8_value(pLocalValue->ToString());
-  std::string value = *utf8_value;
-  return value;
 }
