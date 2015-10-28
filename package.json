@@ -1,6 +1,6 @@
 {
   "name": "naptcha",
-  "version": "1.2.1",
+  "version": "1.2.9",
   "description": "A simple captcha for nodejs",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,8 @@
     "rebuild": "npm run build && rm -rf ./dist && mkdir ./dist && babel -d ./dist ./lib",
     "demo": "npm run rebuild && node ./demo/test.js"
   },
+  "homepage": "https://github.com/lukywong/naptcha",
+  "repository": "git@github.com:lukywong/naptcha.git",
   "author": "lukywong@gmail.com",
   "license": "MIT",
   "dependencies": {
