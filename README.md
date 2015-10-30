@@ -1,10 +1,15 @@
 # Introduction
-A simple captcha for Node.js, support node 0.10.x, 0.12.x and 4.x. Support Mac OS X and Linux.
+A simple captcha for Node.js, support node 0.10.x, 0.12.x, 4.x and 5.0. Support Mac OS X and Linux.
 
 # How to build
 Make sure install nodejs before building.
 ``` bash
 $ npm run build
+```
+
+# Run demo
+``` bash
+$ npm run demo
 ```
 
 # Installation
