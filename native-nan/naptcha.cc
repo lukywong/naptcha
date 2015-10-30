@@ -16,13 +16,13 @@ using namespace cimg_library;
 
 namespace naptcha_object
 {
-	std::string Text;
-	std::string FileName;
-	int Count;
-	int Width;
-	int Height;
-	int Quality;
-	int IsJpeg;
+  std::string Text;
+  std::string FileName;
+  int Count;
+  int Width;
+  int Height;
+  int Quality;
+  int IsJpeg;
   int FontSize;
   int Offset;
   int CharacterSpace;
@@ -85,7 +85,7 @@ int CNaptcha::Save()
         letter,
         fontColor[idx],
         0,
-        0.7,
+        1,
         naptcha_object::FontSize
       );
     }
