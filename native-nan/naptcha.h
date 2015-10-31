@@ -10,6 +10,8 @@
 
 #include <nan.h>
 #include <string>
+#define cimg_use_cpp11 0
+#define cimg_display 0
 #include "CImg.h"
 
 using namespace v8;
