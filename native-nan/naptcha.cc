@@ -91,7 +91,7 @@ int CNaptcha::Save()
     }
   }
 
-  float fFreq = _Rand(0.15, 0.25), fOffset = _Rand(-1, 1) * 3;
+  float fFreq = cimg::rand(0.15, 0.25), fOffset = cimg::rand(-1, 1) * 3;
   cimg_forYC(captcha, y, v)
     captcha
       .get_shared_row(y, 0, v)

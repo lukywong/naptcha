@@ -29,11 +29,6 @@ protected:
     std::string value = *utf8_value;
     return value;
   };
-  inline static double _Rand(const double min, const double max)
-  {
-    const double val = (double)std::rand() / RAND_MAX;
-    return min + (max - min) * val;
-  };
 
 private:
   CNaptcha() {};
