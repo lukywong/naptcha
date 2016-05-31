@@ -32,7 +32,6 @@ app.get('/naptcha', function (req, res) {
   var nap = naptcha.perform();
   res.setHeader("Content-Type", "image/jpeg");
   res.end(nap.bytes, 'binary');
-  res.body = nap.bytes;
 });
 ```
 
