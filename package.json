@@ -12,6 +12,9 @@
   },
   "homepage": "https://github.com/lukywong/naptcha",
   "repository": "git@github.com:lukywong/naptcha.git",
+  "keywords": [
+    "captcha"
+  ],
   "author": "lukywong@gmail.com",
   "license": "MIT",
   "dependencies": {
