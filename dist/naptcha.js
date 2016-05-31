@@ -3,14 +3,21 @@
 var naptchaNative = require('../build/Release/naptcha.node');
 var fs = require('fs');
 var curry = require('curry');
+var crypto = require('crypto');
 var assign = require('object-assign');
 var path = require('path');
+var mkdir = require('mkdirp');
+var rimraf = require('rimraf');
 
-function naptcha(value) {
-  var defaultValue = {
-    dir: '.',
+var CAPS_DIR = path.join(__dirname, '../', 'caps');
+rimraf.sync(CAPS_DIR);
+mkdir.sync(CAPS_DIR);
+
+function naptcha(options) {
+  var defaultOptions = {
+    dir: CAPS_DIR,
     fileName: Date.now(),
-    type: 'jpeg',
+    type: 'bmp',
     width: 160,
     height: 50,
     quality: 50,
@@ -19,39 +26,44 @@ function naptcha(value) {
     charSpace: 20,
     textGen: randomTextGen
   };
-  this.__value = assign(defaultValue, value || {});
+  this.__options = assign(defaultOptions, options || {});
 }
 
-naptcha.of = function (val) {
-  return new naptcha(val);
+naptcha.of = function (options) {
+  return new naptcha(options);
 };
 
 naptcha.prototype.map = function (xform) {
-  return naptcha.of(xform(this.__value));
+  return naptcha.of(xform(this.__options));
 };
 
-naptcha.prototype.perform = function (text) {
-  var _value = this.__value;
-  var dir = _value.dir;
-  var fileName = _value.fileName;
-  var type = _value.type;
-  var width = _value.width;
-  var height = _value.height;
-  var quality = _value.quality;
-  var fontSize = _value.fontSize;
-  var offset = _value.offset;
-  var charSpace = _value.charSpace;
-  var textGen = _value.textGen;
+naptcha.prototype.perform = function (txt) {
+  var _options = this.__options;
+  var dir = _options.dir;
+  var fileName = _options.fileName;
+  var type = _options.type;
+  var width = _options.width;
+  var height = _options.height;
+  var quality = _options.quality;
+  var fontSize = _options.fontSize;
+  var offset = _options.offset;
+  var charSpace = _options.charSpace;
+  var textGen = _options.textGen;
 
   var isJpeg = type.toUpperCase() == 'JPEG';
-  var filePath = path.join(dir, fileName + '.' + (isJpeg ? 'jpeg' : 'bmp'));
-  var txt = text || textGen();
+  var text = txt || textGen();
+  var nonce = crypto.randomBytes(8).toString('hex');
+  var name = fileName + '_' + text + '_' + nonce;
+  var filePath = path.join(dir, name + '.' + (isJpeg ? 'jpeg' : 'bmp'));
 
-  naptchaNative.generate(txt, filePath, txt.length, width, height, quality, isJpeg, fontSize, offset, charSpace);
+  naptchaNative.generate(text, filePath, text.length, width, height, quality, isJpeg, fontSize, offset, charSpace);
 
-  return Object.create(fs.createReadStream(filePath), {
-    text: { value: txt }
-  });
+  try {
+    var bytes = fs.readFileSync(filePath);
+    return { bytes: bytes, text: text, path: filePath };
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 var zipObj = function zipObj(arr1, arr2) {
@@ -77,7 +89,7 @@ naptcha.charSpace = mergeOptionAs('charSpace');
 naptcha.textGen = mergeOptionAs('textGen');
 
 var randomTextGen = function randomTextGen() {
-  return require('crypto').randomBytes(2).toString('hex');
+  return crypto.randomBytes(2).toString('hex');
 };
 
 module.exports = naptcha;

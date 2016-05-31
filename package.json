@@ -1,22 +1,26 @@
 {
   "name": "naptcha",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "A simple captcha for nodejs",
   "main": "index.js",
   "scripts": {
     "config": "node-gyp configure",
     "build": "node-gyp rebuild",
-    "rebuild": "npm run build && rm -rf ./dist && mkdir ./dist && babel -d ./dist ./lib",
-    "demo": "npm run rebuild && node ./demo/test.js"
+    "compile": "rm -rf ./dist && mkdir ./dist && babel -d ./dist ./lib",
+    "rebuild": "npm run build && npm run compile",
+    "demo": "node ./demo/test.js"
   },
   "homepage": "https://github.com/lukywong/naptcha",
   "repository": "git@github.com:lukywong/naptcha.git",
   "author": "lukywong@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "nan": "^2.3.3",
     "curry": "^1.2.0",
-    "object-assign": "^4.0.1"
+    "memoizee": "^0.3.10",
+    "mkdirp": "^0.5.1",
+    "nan": "^2.3.3",
+    "object-assign": "^4.0.1",
+    "rimraf": "^2.5.2"
   },
   "devDependencies": {
     "babel": "^5.8.23"

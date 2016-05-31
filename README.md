@@ -27,22 +27,12 @@ $ npm install naptcha
 express.js
 
 ``` javascript
-var naptcha = require('naptcha');
-var options = {
-  dir: './node_modules',
-  fileName: Date.now(),
-  type: 'jpeg',
-  width: 110,
-  height: 65,
-  quality: 50,
-  fontSize: 57
-};
-var napObj = naptcha.of(options);
+var naptcha = require('naptcha').of();
 app.get('/naptcha', function (req, res) {
-  var nap = napObj.perform();
+  var nap = naptcha.perform();
   res.setHeader("Content-Type", "image/jpeg");
-  nap.pipe(res);
-  console.log(nap.text);
+  res.end(nap.bytes, 'binary');
+  res.body = nap.bytes;
 });
 ```
 
@@ -52,7 +42,7 @@ koa.js
 router.get('/naptcha', function* (req, resp) {
   const nap = naptcha.perform();
   this.session.naptcha = nap.text;
-  this.body = nap;
+  this.body = nap.bytes;
   this.type = 'image/jpeg';
 });
 ```

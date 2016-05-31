@@ -1,1 +1,1 @@
-module.exports = require('./dist/naptcha');
+module.exports = require('./dist/index');
