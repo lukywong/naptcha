@@ -21,7 +21,7 @@ function naptcache(options) {
     return _this.captcha.perform(text);
   };
   var dispose = function dispose(value) {
-    return fs.unlink(value.path);
+    return fs.unlink(value.path, function () {});
   };
   this.memoized = memoize(fn, { dispose: dispose });
 };
