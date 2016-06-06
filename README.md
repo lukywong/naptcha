@@ -46,5 +46,15 @@ router.get('/naptcha', function* (req, resp) {
 });
 ```
 
+# Release History
+* 1.3.1
+  * stable version
+* 2.0.0
+  * change api for get image bytes by `nap.bytes`
+  * add cache for captcha
+* 2.0.3
+  * fix cache dispose issue
+  * stable version
+
 # License
 MIT
